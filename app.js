@@ -119,7 +119,9 @@ app.use((req,res,next)=>{
 // })
 
 
-
+app.get('/', (req, res) => {
+  res.redirect('/listings');
+});
 
 //Listings
 app.use("/listings",listingRouter);
@@ -156,7 +158,6 @@ app.use((err,req,res,next)=>{
 
 
 
-app.listen(8080,()=>{
-    console.log(`Server is running on port ${port}`);
+app.listen(port, () => {
+  console.log(`Server is running on http://localhost:${port}`);
 });
-
