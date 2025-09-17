@@ -2,8 +2,28 @@ const Listing = require("../models/listing.js");
 
 
 module.exports.index=async (req, res) => {
-    const allListings = await Listing.find({});
-    res.render("listings/index.ejs", { allListings });
+    // const allListings = await Listing.find({});
+    // res.render("listings/index.ejs", { allListings });
+
+    //For Search
+     const { q } = req.query; // search query from ?q=...
+  let allListings;
+
+  if (q) {
+    // If search is present → filter listings
+    allListings = await Listing.find({
+      $or: [
+        { title: { $regex: q, $options: "i" } },
+        { description: { $regex: q, $options: "i" } },
+        { location: { $regex: q, $options: "i" } }
+      ]
+    });
+  } else {
+    // Otherwise → show all
+    allListings = await Listing.find({});
+  }
+
+  res.render("listings/index.ejs", { allListings, q });
 };
 
 
