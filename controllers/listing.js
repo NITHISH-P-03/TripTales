@@ -1,4 +1,5 @@
 const Listing = require("../models/listing.js");
+const Booking =require("../models/booking.js");
 
 
 module.exports.index=async (req, res) => {
@@ -47,6 +48,7 @@ module.exports.showListing=async (req, res) => {
       res.redirect("/listings");
     }
     //console.log(listing);
+    
     res.render("listings/show.ejs", { listing });
   };
 

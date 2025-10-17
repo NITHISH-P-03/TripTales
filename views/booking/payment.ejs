@@ -1,0 +1,95 @@
+<!-- 
+
+<% layout("/layouts/boilerplate")%>
+
+ <div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white text-center">
+          <h3>Payment for <%= booking.listing.title %></h3>
+        </div>
+        <div class="card-body">
+          <p class="fs-5 mb-4">Amount: <strong>₹<%= Math.ceil(booking.guests/4)*booking.listing.price %></strong></p>
+          
+          <form action="/booking/payment/success" method="POST">
+            <input type="hidden" name="bookingId" value="<%= booking._id %>">
+
+            <div class="mb-3">
+              <label for="cardNumber" class="form-label">Card Number</label>
+              <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+            </div>
+
+            <div class="row mb-3">
+              <div class="col">
+                <label for="expiry" class="form-label">Expiry</label>
+                <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+              </div>
+              <div class="col">
+                <label for="cvv" class="form-label">CVV</label>
+                <input type="text" class="form-control" id="cvv" placeholder="123" required>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100">Pay Now</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+ -->
+
+
+ <% layout("/layouts/boilerplate")%>
+
+<div class="row mt-3">
+  <div class="col-8 offset-3">
+    <h3>Payment for <%= booking.listing.title %></h3>
+    <p class="fs-5 mb-4">
+      Amount: <strong>₹<%= Math.ceil(booking.guests / 4) * booking.listing.price %></strong>
+    </p>
+
+    <form action="/booking/payment/success" method="POST" class="needs-validation" novalidate>
+      <input type="hidden" name="bookingId" value="<%= booking._id %>">
+
+      <div class="mb-3">
+        <label for="cardNumber" class="form-label">Card Number</label>
+        <input type="text" class="form-control" id="cardNumber" placeholder="1234 5678 9012 3456" required>
+        <div class="invalid-feedback">Please enter a valid card number</div>
+      </div>
+
+      <div class="row mb-3">
+        <div class="col">
+          <label for="expiry" class="form-label">Expiry</label>
+          <input type="text" class="form-control" id="expiry" placeholder="MM/YY" required>
+          <div class="invalid-feedback">Enter valid expiry date</div>
+        </div>
+        <div class="col">
+          <label for="cvv" class="form-label">CVV</label>
+          <input type="text" class="form-control" id="cvv" placeholder="123" required>
+          <div class="invalid-feedback">Enter CVV</div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-success mt-3">Pay Now</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Bootstrap validation
+  (function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>

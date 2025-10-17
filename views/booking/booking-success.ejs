@@ -1,0 +1,53 @@
+
+<% layout("/layouts/boilerplate")%>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-lg-6 col-md-8">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header bg-success text-white text-center rounded-top-4 py-4">
+          <i class="bi bi-check-circle-fill display-4"></i>
+          <h2 class="mt-2">Payment Successful!</h2>
+        </div>
+        <div class="card-body p-4">
+          
+          <h5 class="text-muted mb-3">Booking Details</h5>
+          <ul class="list-group list-group-flush mb-4">
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-building me-2 text-success"></i>Hotel</span>
+              <strong><%= booking.listing.title %></strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-calendar-check me-2 text-success"></i>Check-in</span>
+              <strong><%= booking.checkin.toDateString() %></strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-calendar-x me-2 text-success"></i>Check-out</span>
+              <strong><%= booking.checkout.toDateString() %></strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-people-fill me-2 text-success"></i>Guests</span>
+              <strong><%= booking.guests %></strong>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <span><i class="bi bi-credit-card-fill me-2 text-success"></i>Payment ID</span>
+              <strong><%= booking.paymentId %></strong>
+            </li>
+          </ul>
+
+          <div class="alert alert-success d-flex align-items-center rounded-4">
+            <i class="bi bi-envelope-fill me-2"></i>
+            <div>
+              A confirmation email has been sent to <strong><%= booking.user.username %></strong>
+            </div>
+          </div>
+
+          <div class="text-center mt-4">
+            <a href="/" class="btn btn-success btn-lg me-2 rounded-pill"><i class="bi bi-house-door-fill me-1"></i> Home</a>
+            
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

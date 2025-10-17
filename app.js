@@ -30,6 +30,7 @@ const User=require("./models/user.js");
 
 
 
+
 app.set("view engine","ejs");
 app.set("views",path.join(__dirname,"views"));
 app.use(express.urlencoded({extended:true}));
@@ -41,6 +42,8 @@ app.use(express.static(path.join(__dirname,"public")));
 const listingRouter=require("./routes/listing.js");
 const reviewRouter=require("./routes/review.js");
 const userRouter=require("./routes/user.js");
+const bookingRoutes = require("./routes/booking.js");
+
 
 
 //MONGO_URL="mongodb://127.0.0.1:27017/wonderlust";
@@ -133,6 +136,8 @@ app.use("/listings/:id/reviews",reviewRouter);
 //User
 app.use("/",userRouter)
 
+
+app.use("/booking", bookingRoutes);
 
 
 //This is Error Handling

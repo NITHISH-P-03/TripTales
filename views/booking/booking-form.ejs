@@ -1,0 +1,120 @@
+<!-- 
+
+<% layout("/layouts/boilerplate")%>
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card shadow-sm rounded-4">
+        <div class="card-header bg-success text-white text-center rounded-top-4 py-3">
+          <h3><%= listing.title %></h3>
+        </div>
+        <div class="card-body">
+          <form action="/booking/<%= listing._id %>" method="POST">
+            
+            <div class="mb-3">
+              <label for="checkin" class="form-label">Check-in</label>
+              <input type="date" class="form-control" id="checkin" name="checkin" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="checkout" class="form-label">Check-out</label>
+              <input type="date" class="form-control" id="checkout" name="checkout" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="guests" class="form-label">Guests</label>
+              <input type="number" class="form-control" id="guests" name="guests" min="1" required>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 btn-lg rounded-pill">Proceed to Payment</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const today = new Date().toISOString().split('T')[0];
+  const checkin = document.getElementById('checkin');
+  const checkout = document.getElementById('checkout');
+
+  // Set check-in min to today
+  checkin.setAttribute('min', today);
+
+  // Set check-out min to today initially
+  checkout.setAttribute('min', today);
+
+  // Update checkout min when checkin changes
+  checkin.addEventListener('change', function() {
+    if (checkin.value) {
+      checkout.value = ''; // Reset checkout
+      checkout.setAttribute('min', checkin.value);
+    }
+  });
+</script> -->
+
+
+
+<% layout("/layouts/boilerplate")%>
+
+<div class="row mt-3">
+  <div class="col-8 offset-3">
+    <h3>Book: <%= listing.title %></h3>
+    
+    <form action="/booking/<%= listing._id %>" method="POST" class="needs-validation" novalidate>
+      
+      <div class="mb-3">
+        <label for="checkin" class="form-label">Check-in Date</label>
+        <input type="date" class="form-control" id="checkin" name="checkin" required>
+        <div class="invalid-feedback">Please select a valid check-in date</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="checkout" class="form-label">Check-out Date</label>
+        <input type="date" class="form-control" id="checkout" name="checkout" required>
+        <div class="invalid-feedback">Please select a valid check-out date</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="guests" class="form-label">Number of Guests</label>
+        <input type="number" class="form-control" id="guests" name="guests" min="1" required>
+        <div class="invalid-feedback">Enter at least 1 guest</div>
+      </div>
+
+      <button type="submit" class="btn btn-success mt-3">Proceed to Payment</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // Set check-in and check-out min dates
+  const today = new Date().toISOString().split('T')[0];
+  const checkin = document.getElementById('checkin');
+  const checkout = document.getElementById('checkout');
+
+  checkin.setAttribute('min', today);
+  checkout.setAttribute('min', today);
+
+  checkin.addEventListener('change', () => {
+    if (checkin.value) {
+      checkout.value = '';
+      checkout.setAttribute('min', checkin.value);
+    }
+  });
+
+  // Bootstrap validation
+  (function () {
+    'use strict';
+    const forms = document.querySelectorAll('.needs-validation');
+    Array.from(forms).forEach(form => {
+      form.addEventListener('submit', event => {
+        if (!form.checkValidity()) {
+          event.preventDefault();
+          event.stopPropagation();
+        }
+        form.classList.add('was-validated');
+      }, false);
+    });
+  })();
+</script>
