@@ -73,8 +73,8 @@ router.post("/payment/success", isLoggedin, async (req, res) => {
 
   const transporter = nodemailer.createTransport({
   host: "smtp.gmail.com",
-  port: 465,
-  secure: true,
+  port:  587, 
+  secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
@@ -83,7 +83,7 @@ router.post("/payment/success", isLoggedin, async (req, res) => {
 
 
   const mailOptions = {
-    from: "maxverstappen0317@gmail.com",
+    from: process.env.EMAIL_USER,
     to: booking.user.email, // assuming username is email
     subject: "Booking Confirmation",
     text: `Hi ${booking.user.username},
@@ -106,6 +106,12 @@ Thank you for booking with us!`
   });
   sent=true;
  }
+
+ transporter.verify((error, success) => {
+  if (error) console.log("SMTP Error:", error);
+  else console.log("Server is ready to take messages");
+});
+
 
   res.render("booking/booking-success", { booking });
 });
