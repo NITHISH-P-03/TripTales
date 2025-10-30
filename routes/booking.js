@@ -60,15 +60,27 @@ router.post("/payment/success", isLoggedin, async (req, res) => {
   ).populate("listing user");
 
   // Send confirmation email
+  // const transporter = nodemailer.createTransport({
+  //   service: "gmail",
+  //   auth: {
+  //     // user: "maxverstappen0317@gmail.com",
+  //     // pass: "mqrg hlss qviy ehem"
+  //     user:process.env.EMAIL_USER,
+  //     pass:process.env.EMAIL_PASS
+  //   }
+  // });
+
+
   const transporter = nodemailer.createTransport({
-    service: "gmail",
-    auth: {
-      // user: "maxverstappen0317@gmail.com",
-      // pass: "mqrg hlss qviy ehem"
-      user:process.env.EMAIL_USER,
-      pass:process.env.EMAIL_PASS
-    }
-  });
+  host: "smtp.gmail.com",
+  port: 465,
+  secure: true,
+  auth: {
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS,
+  },
+});
+
 
   const mailOptions = {
     from: "maxverstappen0317@gmail.com",
