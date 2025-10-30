@@ -72,18 +72,21 @@ router.post("/payment/success", isLoggedin, async (req, res) => {
 
 
   const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port:  587, 
+  host: process.env.EMAIL_HOST,
+  port:  process.env.EMAIL_PORT, 
   secure: false,
   auth: {
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+   tls: {
+    rejectUnauthorized: false
+  }
 });
 
 
   const mailOptions = {
-    from: process.env.EMAIL_USER,
+    from: `${process.env.SENDER_NAME} <${process.env.SENDER_EMAIL}>`,
     to: booking.user.email, // assuming username is email
     subject: "Booking Confirmation",
     text: `Hi ${booking.user.username},
@@ -97,20 +100,29 @@ Payment ID: ${booking.paymentId}
 Thank you for booking with us!`
   };
 
-  let sent=false;
+//   let sent=false;
 
- if(!sent){
-     transporter.sendMail(mailOptions, (err, info) => {
-    if (err) console.log(err);
-    else console.log("Email sent: " + info.response);
-  });
-  sent=true;
- }
+//  if(!sent){
+//      transporter.sendMail(mailOptions, (err, info) => {
+//     if (err) console.log(err);
+//     else console.log("Email sent: " + info.response);
+//   });
+//   sent=true;
+//  }
 
- transporter.verify((error, success) => {
-  if (error) console.log("SMTP Error:", error);
-  else console.log("Server is ready to take messages");
-});
+
+try {
+  await transporter.sendMail(mailOptions);
+  console.log("✅ Booking email sent");
+} catch (err) {
+  console.log("❌ Email sending failed:", err);
+}
+
+
+//  transporter.verify((error, success) => {
+//   if (error) console.log("SMTP Error:", error);
+//   else console.log("Server is ready to take messages");
+// });
 
 
   res.render("booking/booking-success", { booking });
