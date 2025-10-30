@@ -4,6 +4,8 @@ const Booking = require("../models/booking");
 const Listing = require("../models/listing");
 const { isLoggedin } = require("../middleware.js");
 const nodemailer = require("nodemailer");
+require("dotenv").config();
+
 
 // Render booking form
 router.get("/:listingId", isLoggedin, async (req, res) => {
@@ -61,8 +63,10 @@ router.post("/payment/success", isLoggedin, async (req, res) => {
   const transporter = nodemailer.createTransport({
     service: "gmail",
     auth: {
-      user: "maxverstappen0317@gmail.com",
-      pass: "mqrg hlss qviy ehem"
+      // user: "maxverstappen0317@gmail.com",
+      // pass: "mqrg hlss qviy ehem"
+      user:process.env.EMAIL_USER,
+      pass:process.env.EMAIL_PASS
     }
   });
 
